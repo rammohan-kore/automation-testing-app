@@ -53,7 +53,14 @@ socketServer.on("connection", (socket) => {
 
         const app = new WebhookResponse();
         app.hangup();
-        ack(callObj.savgSocket, callObj.msgid, app)
+        const msg = {
+            type: 'command',
+            command:'redirect',
+            queueCommand:false,
+            data: app.toJSON()
+        };
+        callObj.savgSocket.send(JSON.stringify(msg))
+        //ack(callObj.savgSocket, callObj.msgid, app)
         
     })
     socket.on("create_call", (data) => {
