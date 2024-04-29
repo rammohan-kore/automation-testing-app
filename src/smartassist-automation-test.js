@@ -13,7 +13,8 @@ const socketServer = new Server(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"]
-  }
+  },
+  path:'/avt-server/socket.io/'
 });
 const port = config.WEB_SOCKET_SERVER_PORT;
 httpServer.listen(port, () => {
