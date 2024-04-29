@@ -61,27 +61,16 @@ wss.on('connection', function (ws) {
                 let transcript = wsData?.data?.speech?.alternatives[0].transcript
                 callObj.socket.emit('transcript', transcript)
                 console.log("Transcript:", transcript);
-                /*if (transcript.toLowerCase().indexOf('powered') !== -1 || transcript.toLowerCase().indexOf('how can') !== -1) {
-                    console.log("sending speech...")
-                    const app = new WebhookResponse();
-                    app.say({
-                        "text" : "what is my account balance"
-                    })
-                    ack(ws, msgid, app)
-                }
-
-                if (transcript.toLowerCase().indexOf("balance is") !== -1) {
-                    const app = new WebhookResponse();
-                    app.hangup();
-                    ack(ws, msgid, app)
-                }*/
             }
-        } else if (wsData.type === 'session:reconnect') {
             const app = new WebhookResponse();
-            app.hangup();
             ack(ws, msgid, app)
+        } else if (wsData.type === 'session:reconnect') {
+            // console.log("Reconnecting......")
+            // const app = new WebhookResponse();
+            // app.hangup();
+            // ack(ws, msgid, app)
         } else {
-            // console.log('message: ' + dataStr);
+            console.log('message: ' + dataStr);
         }
     })
 })

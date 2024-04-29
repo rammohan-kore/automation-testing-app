@@ -29,15 +29,23 @@ socketServer.on("connection", (socket) => {
     socket.on("say", (data) => {
         let call_sid = data.call_sid;
         let callObj = calls.get(call_sid);
-        // console.log(call_sid, data.text, callObj.msgid);
-        // console.log(callObj)
+
         console.log("Say:", data.text)
         const app = new WebhookResponse();
         app.say({
             "text" : data.text
         })
-        ack(callObj.savgSocket, callObj.msgid, app)
+        //ack(callObj.savgSocket, callObj.msgid, app)
         //callObj.savgSocket.send(JSON.stringify(app))
+        const msg = {
+            type: 'command',
+            command:'redirect',
+            queueCommand:false,
+            data: app.toJSON()
+        };
+        callObj.savgSocket.send(JSON.stringify(msg))
+
+
     })
     socket.on("end_call", (data) => {
         let call_sid = data.call_sid;
