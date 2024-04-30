@@ -14,12 +14,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="SERVER" elementType="Argument">
             <stringProp name="Argument.name">SERVER</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.value">korevg-dev.kore.ai</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PORT" elementType="Argument">
             <stringProp name="Argument.name">PORT</stringProp>
-            <stringProp name="Argument.value">3100</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="DelayTime" elementType="Argument">
@@ -54,6 +54,11 @@
             <stringProp name="Argument.value">{&quot;type&quot;: &quot;sip&quot;,&quot;sipUri&quot;: &quot;10051@23.21.52.56:5060&quot; }</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="protocol" elementType="Argument">
+            <stringProp name="Argument.name">protocol</stringProp>
+            <stringProp name="Argument.value">https</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
@@ -83,8 +88,8 @@
             </elementProp>
             <stringProp name="HTTPSampler.domain">${SERVER}</stringProp>
             <stringProp name="HTTPSampler.port">${PORT}</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.path">socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">/avt-server/socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -131,8 +136,8 @@ vars.put(&quot;randomString&quot;, randomString);</stringProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${SERVER}</stringProp>
             <stringProp name="HTTPSampler.port">${PORT}</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.path">socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}&amp;sid=${SID}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">/avt-server/socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}&amp;sid=${SID}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -168,10 +173,10 @@ vars.put(&quot;randomString&quot;, randomString);</stringProp>
         </TransactionController>
         <hashTree>
           <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WebSocket Open Connection" enabled="true">
-            <boolProp name="TLS">false</boolProp>
+            <boolProp name="TLS">true</boolProp>
             <stringProp name="server">${SERVER}</stringProp>
             <stringProp name="port">${PORT}</stringProp>
-            <stringProp name="path">socket.io/?EIO=4&amp;transport=websocket&amp;sid=${SID}</stringProp>
+            <stringProp name="path">/avt-server/socket.io/?EIO=4&amp;transport=websocket&amp;sid=${SID}</stringProp>
             <stringProp name="connectTimeout">20000</stringProp>
             <stringProp name="readTimeout">60000</stringProp>
           </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
@@ -263,8 +268,8 @@ vars.put(&quot;randomString&quot;, randomString);</stringProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${SERVER}</stringProp>
             <stringProp name="HTTPSampler.port">${PORT}</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.path">socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">/avt-server/socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -311,8 +316,8 @@ vars.put(&quot;randomString&quot;, randomString);</stringProp>
             </elementProp>
             <stringProp name="HTTPSampler.domain">${SERVER}</stringProp>
             <stringProp name="HTTPSampler.port">${PORT}</stringProp>
-            <stringProp name="HTTPSampler.protocol">http</stringProp>
-            <stringProp name="HTTPSampler.path">socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}&amp;sid=${SID}</stringProp>
+            <stringProp name="HTTPSampler.protocol">${protocol}</stringProp>
+            <stringProp name="HTTPSampler.path">/avt-server/socket.io/?EIO=4&amp;transport=polling&amp;t=${randomString}&amp;sid=${SID}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -338,10 +343,10 @@ vars.put(&quot;randomString&quot;, randomString);</stringProp>
         </TransactionController>
         <hashTree>
           <eu.luminis.jmeter.wssampler.OpenWebSocketSampler guiclass="eu.luminis.jmeter.wssampler.OpenWebSocketSamplerGui" testclass="eu.luminis.jmeter.wssampler.OpenWebSocketSampler" testname="WebSocket Open Connection" enabled="true">
-            <boolProp name="TLS">false</boolProp>
+            <boolProp name="TLS">true</boolProp>
             <stringProp name="server">${SERVER}</stringProp>
             <stringProp name="port">${PORT}</stringProp>
-            <stringProp name="path">socket.io/?EIO=4&amp;transport=websocket&amp;sid=${SID}</stringProp>
+            <stringProp name="path">/avt-server/socket.io/?EIO=4&amp;transport=websocket&amp;sid=${SID}</stringProp>
             <stringProp name="connectTimeout">20000</stringProp>
             <stringProp name="readTimeout">60000</stringProp>
           </eu.luminis.jmeter.wssampler.OpenWebSocketSampler>
