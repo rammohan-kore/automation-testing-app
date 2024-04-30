@@ -4,7 +4,7 @@ require('dotenv').config()
 const { combine, timestamp, json } = winston.format;
 
 const savgFileRotateTransport = new winston.transports.DailyRotateFile({
-  filename: process.env.LOG_DIR + '/' + `savg-server-%DATE%.log`,
+  filename: process.env.LOG_DIR + '/' + `automation-savg-ws-server-%DATE%.log`,
   datePattern: 'YYYY-MM-DD',
   maxFiles: '7d',
 });
