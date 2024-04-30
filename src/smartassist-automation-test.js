@@ -6,6 +6,7 @@ const request = require('request')
 const calls = require('./utils').calls;
 const {WebhookResponse} = require('@jambonz/node-client');
 const { ack } = require('./ack');
+const logger = require('./logger').wsLogger;
 
 const config = process.env;
 let testName = config.TEST_NAME;
@@ -18,26 +19,24 @@ const socketServer = new Server(httpServer, {
 });
 const port = config.WEB_SOCKET_SERVER_PORT;
 httpServer.listen(port, () => {
-  console.log(`**** SmartAssist Test Server Started  on port ${port} ****`)
+  logger.info(`**** SmartAssist Test Server Started  on port ${port} ****`)
 });
 
 socketServer.on("connection", (socket) => {
-    // console.log("socket connection established");
+    logger.info("New connection received for ws test server")
     socket.on("set_test_name", (data) => {
-        // console.log(`inside set_test_name ${JSON.stringify(data)}`)
+        logger.info(`setting test name: ${JSON.stringify(data)}`)
         testName = data.testName;    
     })
     socket.on("say", (data) => {
         let call_sid = data.call_sid;
         let callObj = calls.get(call_sid);
 
-        console.log("Say:", data.text)
+        logger.info(`Say ${call_sid}: ${data.text}`)
         const app = new WebhookResponse();
         app.say({
             "text" : data.text
         })
-        //ack(callObj.savgSocket, callObj.msgid, app)
-        //callObj.savgSocket.send(JSON.stringify(app))
         const msg = {
             type: 'command',
             command:'redirect',
@@ -51,6 +50,7 @@ socketServer.on("connection", (socket) => {
     socket.on("end_call", (data) => {
         let call_sid = data.call_sid;
         let callObj = calls.get(call_sid);
+        logger.info(`end_call ${data.call_sid}`)
 
         const app = new WebhookResponse();
         app.hangup();
@@ -61,8 +61,6 @@ socketServer.on("connection", (socket) => {
             data: app.toJSON()
         };
         callObj.savgSocket.send(JSON.stringify(msg))
-        //ack(callObj.savgSocket, callObj.msgid, app)
-        
     })
     socket.on("create_call", (data) => {
         let applicationSId = config.JAMBONZ_APPLICATION_SID;
@@ -70,6 +68,7 @@ socketServer.on("connection", (socket) => {
         let callStatusHookURL = config.CALL_HOOK_BASE_URL + '/confirm';
         let fromNumber = data.fromNumber;
         let toBody = data.toBody;
+        logger.info(`create_call: ${fromNumber}, toBody: ${toBody}`)
         // console.log(`fromNumber: ${fromNumber}, toBody: ${toBody}`)
         let dialRequestBody = {
         "application_sid": applicationSId,
@@ -96,14 +95,14 @@ socketServer.on("connection", (socket) => {
             json: true,
             body: dialRequestBody
         }, function (error, response, body) {
-            // console.log("body=====", body)
             let callObj = calls.get(body.sid) || {};
             callObj.socket = socket;
             callObj.call_sid = body.sid;
             calls.set(body.sid, callObj)
+            logger.info(`call created with sid: ${callObj.call_sid}`)
             socket.emit("call", body);
             if (error) {
-                console.error(`Error in calling with dial is ${error}`)
+                logger.error(`Error in calling with dial is ${error}`)
             }
         });
     })
