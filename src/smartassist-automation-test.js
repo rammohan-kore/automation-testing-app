@@ -67,7 +67,7 @@ socketServer.on("connection", (socket) => {
     socket.on("create_call", (data) => {
         let applicationSId = config.JAMBONZ_APPLICATION_SID;
         let callHookURL = config.CALL_HOOK_BASE_URL + '/confirm';
-        let callStatusHookURL = config.CALL_HOOK_BASE_URL + '/status';
+        let callStatusHookURL = config.CALL_HOOK_BASE_URL + '/confirm';
         let fromNumber = data.fromNumber;
         let toBody = data.toBody;
         // console.log(`fromNumber: ${fromNumber}, toBody: ${toBody}`)
