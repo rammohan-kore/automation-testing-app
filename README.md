@@ -9,25 +9,23 @@ Based on the options that you have chosen, this application exposes the followin
 ### /hello-world
 A simple "hello, world" application using text to speech.
 
-upstream automationvoicetesting {
-    server 127.0.0.1:3400;
-    keepalive 32;
-}
 
+# define the below routes in /etc/nginx/sites-enabled/ssl file
+location /avt-server/socket.io/ {
+      proxy_pass http://localhost:3100;
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection 'upgrade';
+      proxy_set_header Host $host;
+      proxy_cache_bypass $http_upgrade;
+    }
+    location /automationvoicetesting/ {
+            rewrite ^/automationvoicetesting/(.*) /$1  break;
+            proxy_pass http://localhost:3400;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+     }
 
-server {
-  listen 443 ssl;
-  include snippets/korevg.conf;
-  server_name dev-savg-grafana-savgrnd.ai;
-  location /automationvoicetesting {
-    proxy_pass http://localhost:3400;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-  }
-}
 
 
 
