@@ -106,6 +106,26 @@ socketServer.on("connection", (socket) => {
             }
         });
     })
+    socket.on("dtmf", (data) => {
+        let call_sid = data.call_sid;
+        let callObj = calls.get(call_sid);
+
+        logger.info(`DTMF ${call_sid}: ${data.text}`)
+        const app = new WebhookResponse();
+        app.dtmf({
+            "dtmf" : data.text,
+            "duration" : 500
+        })
+        const msg = {
+            type: 'command',
+            command:'redirect',
+            queueCommand:false,
+            data: app.toJSON()
+        };
+        callObj.savgSocket.send(JSON.stringify(msg))
+
+
+    })
 })
 function getHeaderFields() {
     var headerFields = {
